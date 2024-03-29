@@ -1,9 +1,8 @@
 import { createHash } from "crypto"
 import { UrlRepository } from "./url.repository"
 import { UserService } from "../user/user.service"
-import { NotFoundException, UnauthorizedException } from "@repo/shared"
+import { env, NotFoundException, UnauthorizedException } from "@repo/shared"
 import { Url } from "../../database/types"
-import { env } from "../../config/env.config"
 
 export class UrlService {
   constructor(
