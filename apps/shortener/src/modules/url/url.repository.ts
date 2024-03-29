@@ -17,8 +17,8 @@ export class UrlRepository {
   async findMany(
     params: Paginated<{ userId: number }>
   ): Promise<FindManyResponse> {
-    const take = Number(params.take) ?? 10
-    const page = Number(params.page) ?? 1
+    const take = Number(params.take ?? 10)
+    const page = Number(params.page ?? 1)
 
     const skip = take * (page - 1)
 
