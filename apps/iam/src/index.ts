@@ -1,4 +1,4 @@
-import { buildServer } from './config/dependecy-injection.config'
+import { buildServer } from "./config/dependecy-injection.config"
 
 async function init() {
   const server = await buildServer()
