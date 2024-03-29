@@ -13,6 +13,7 @@ import {
   EventBus,
   NotFoundException,
 } from "@repo/shared"
+import { ChangePasswordReturnBody } from "./dtos/change-password.dto"
 
 export class UserService {
   constructor(
@@ -75,6 +76,33 @@ export class UserService {
 
     return {
       token: token,
+    }
+  }
+
+  async changePassword(
+    userId: string,
+    password: string
+  ): Promise<ChangePasswordReturnBody> {
+    const user = await this.userRepository.findById(userId)
+    if (!user) {
+      throw new NotFoundException("User not found.")
+    }
+
+    const isStrong = isPasswordStrong(password)
+    if (!isStrong) {
+      throw new BadRequestException("Provided password is too weak.")
+    }
+
+    const newPassword = hash(password)
+
+    const updatedUser = await this.userRepository.update(user.id, {
+      password: newPassword,
+    })
+
+    return {
+      id: updatedUser.code,
+      email: updatedUser.email,
+      createdAt: updatedUser.createdAt,
     }
   }
 

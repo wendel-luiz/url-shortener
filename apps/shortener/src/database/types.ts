@@ -26,6 +26,7 @@ export interface UrlTable {
   code: string
   url: string
   counter: Generated<number>
+  createdAt: Generated<string>
   updatedAt?: string
   deletedAt?: string
 }

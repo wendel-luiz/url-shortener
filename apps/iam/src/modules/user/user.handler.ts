@@ -2,6 +2,7 @@ import { RequestHandler } from "express"
 import { UserService } from "./user.service"
 import { SigninBody } from "./dtos/signin.dto"
 import { LoginBody } from "./dtos/login.dto"
+import { ChangePasswordBody } from "./dtos/change-password.dto"
 
 export class UserHandler {
   constructor(private readonly service: UserService) {}
@@ -24,6 +25,18 @@ export class UserHandler {
   ) => {
     this.service
       .login(req.body)
+      .then((result) => res.status(200).json(result))
+      .catch((err) => next(err))
+  }
+
+  public changePassword: RequestHandler<
+    unknown,
+    unknown,
+    ChangePasswordBody,
+    unknown
+  > = (req, res, next) => {
+    this.service
+      .changePassword(req.userId!, req.body.password)
       .then((result) => res.status(200).json(result))
       .catch((err) => next(err))
   }

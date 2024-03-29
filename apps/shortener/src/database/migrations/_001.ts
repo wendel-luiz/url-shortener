@@ -1,11 +1,11 @@
-import { type Kysely } from "kysely"
+import { sql, type Kysely } from "kysely"
 
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
     .createTable("user")
     .addColumn("id", "serial", (col) => col.primaryKey())
     .addColumn("code", "text", (col) => col.notNull().unique())
-    .addColumn("deletedAt", "timestamp")
+    .addColumn("deletedAt", "timestamptz")
     .execute()
 
   await db.schema
@@ -21,8 +21,11 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("code", "text", (col) => col.notNull().unique())
     .addColumn("url", "text", (col) => col.notNull())
     .addColumn("counter", "integer", (col) => col.notNull().defaultTo(0))
-    .addColumn("updatedAt", "timestamp")
-    .addColumn("deletedAt", "timestamp")
+    .addColumn("createdAt", "timestamptz", (col) =>
+      col.defaultTo(sql`now()`).notNull()
+    )
+    .addColumn("updatedAt", "timestamptz")
+    .addColumn("deletedAt", "timestamptz")
     .execute()
 
   await db.schema
