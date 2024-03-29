@@ -1,2 +1,2 @@
 npx lint-staged
-npm run commitlint
+npx --no -- commitlint --edit
