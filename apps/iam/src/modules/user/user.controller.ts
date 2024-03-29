@@ -1,9 +1,8 @@
-import express, { Router } from 'express'
-import { UserHandler } from './user.handler'
-import { signinBodySchema } from './dtos/signin.dto'
-import { loginBodySchema } from './dtos/login.dto'
-import { deleteParamSchema } from './dtos/delete.dto'
-import { bodyParser, paramParser } from '@repo/shared'
+import express, { Router } from "express"
+import { UserHandler } from "./user.handler"
+import { signinBodySchema } from "./dtos/signin.dto"
+import { loginBodySchema } from "./dtos/login.dto"
+import { authMiddleware, bodyParser, paramParser } from "@repo/shared"
 
 export class UserController {
   private readonly router: Router
@@ -12,12 +11,14 @@ export class UserController {
     this.router = express.Router()
 
     this.router.post(
-      '/signin',
+      "/signin",
       bodyParser(signinBodySchema),
-      this.handler.signin,
+      this.handler.signin
     )
 
-    this.router.post('/login', bodyParser(loginBodySchema), this.handler.login)
+    this.router.post("/login", bodyParser(loginBodySchema), this.handler.login)
+
+    this.router.delete("/", authMiddleware, this.handler.delete)
   }
 
   public getRouter(): Router {

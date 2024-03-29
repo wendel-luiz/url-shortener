@@ -25,7 +25,7 @@ export class UrlHandler {
     next
   ) => {
     this.service
-      .findMany(req.userId)
+      .findMany(req.userId!)
       .then((result) => res.status(201).json(result))
       .catch((err) => next(err))
   }
@@ -44,7 +44,7 @@ export class UrlHandler {
     next
   ) => {
     this.service
-      .update(req.userId, req.params.code, req.body.url)
+      .update(req.userId!, req.params.code, req.body.url)
       .then((result) => res.status(201).json(result))
       .catch((err) => next(err))
   }
@@ -55,7 +55,7 @@ export class UrlHandler {
     next
   ) => {
     this.service
-      .delete(req.userId, req.params.code)
+      .delete(req.userId!, req.params.code)
       .then((result) => res.status(201).json(result))
       .catch((err) => next(err))
   }

@@ -3,7 +3,12 @@ import http from "http"
 import cors from "cors"
 import { env } from "process"
 import { UrlController } from "./modules/url/url.controller"
-import { authMiddleware, errorHandler, EventBus } from "@repo/shared"
+import {
+  authMiddleware,
+  errorHandler,
+  EventBus,
+  setUserMiddleware,
+} from "@repo/shared"
 import { UserListener } from "./modules/user/user.listener"
 import { UrlListener } from "./modules/url/url.listener"
 
@@ -21,7 +26,7 @@ export class Server {
     this.app.use(cors())
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
-    this.app.use(authMiddleware)
+    this.app.use(setUserMiddleware)
 
     this.app.use(this.urlController.getRouter())
 
