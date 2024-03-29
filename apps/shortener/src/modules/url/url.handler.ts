@@ -4,6 +4,7 @@ import { CreateBody } from "./dtos/create.dto"
 import { TransformParams } from "./dtos/transform.dto"
 import { UpdateBody, UpdateParams } from "./dtos/update.dto"
 import { DeleteParams } from "./dtos/delete.dto"
+import { FindManyQuery } from "./dtos/find-many.dto"
 
 export class UrlHandler {
   constructor(private readonly service: UrlService) {}
@@ -19,13 +20,13 @@ export class UrlHandler {
       .catch((err) => next(err))
   }
 
-  public findMany: RequestHandler<unknown, unknown, unknown, unknown> = (
+  public findMany: RequestHandler<unknown, unknown, unknown, FindManyQuery> = (
     req,
     res,
     next
   ) => {
     this.service
-      .findMany(req.userId!)
+      .findMany(req.userId!, req.query.page, req.query.take)
       .then((result) => res.status(201).json(result))
       .catch((err) => next(err))
   }

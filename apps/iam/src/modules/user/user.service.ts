@@ -31,7 +31,9 @@ export class UserService {
       throw new BadRequestException("Provided e-mail is invalid.")
     }
 
-    const anotherUser = await this.userRepository.findByEmail(email)
+    const anotherUser = await this.userRepository.findByEmail(email, {
+      withDeleted: true,
+    })
     if (anotherUser) {
       throw new ConflictException("E-mail already in use.")
     }

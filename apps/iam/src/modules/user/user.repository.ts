@@ -21,12 +21,16 @@ export class UserRepository {
       .executeTakeFirst()
   }
 
-  async findByEmail(email: string): Promise<User | undefined> {
+  async findByEmail(
+    email: string,
+    options?: { withDeleted: boolean }
+  ): Promise<User | undefined> {
+    const withoutDeleted = !Boolean(options?.withDeleted)
     return await this.conn
       .selectFrom("user")
       .selectAll()
       .where("user.email", "=", email)
-      .where("deletedAt", "is", null)
+      .$if(withoutDeleted, (qb) => qb.where("deletedAt", "is", null))
       .executeTakeFirst()
   }
 

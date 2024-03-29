@@ -1,5 +1,7 @@
 import { Kysely } from "kysely"
 import { Database, NewUrl, Url, UrlUpdate } from "../../database/types"
+import { env, Paginated } from "@repo/shared"
+import { FindManyResponse } from "./dtos/find-many.dto"
 
 export class UrlRepository {
   constructor(private readonly connection: Kysely<Database>) {}
@@ -12,13 +14,41 @@ export class UrlRepository {
       .executeTakeFirstOrThrow()
   }
 
-  async findMany(userId: number): Promise<Array<Url>> {
-    return await this.connection
+  async findMany(
+    params: Paginated<{ userId: number }>
+  ): Promise<FindManyResponse> {
+    const take = Number(params.take) ?? 10
+    const page = Number(params.page) ?? 1
+
+    const skip = take * (page - 1)
+
+    const query = this.connection
       .selectFrom("url")
       .selectAll()
-      .where("url.userId", "=", userId)
+      .where("url.userId", "=", params.params.userId)
       .where("url.deletedAt", "is", null)
-      .execute()
+
+    const [data, count] = await Promise.all([
+      query.offset(skip).limit(take).execute(),
+      query
+        .clearSelect()
+        .select((eb) => eb.fn.count<number>("url.id").as("total"))
+        .executeTakeFirst(),
+    ])
+
+    const total = count?.total ?? 0
+    const pages = Math.ceil(total / take)
+
+    return {
+      page,
+      pages,
+      length: data.length,
+      items: data.map((url) => ({
+        shortUrl: env.SERVER_URL + url.code,
+        originalUrl: url.url,
+        accesses: url.counter,
+      })),
+    }
   }
 
   async findByCode(code: string): Promise<Url | undefined> {
@@ -46,6 +76,16 @@ export class UrlRepository {
         deletedAt: new Date().toISOString(),
       })
       .where("id", "=", id)
+      .executeTakeFirstOrThrow()
+  }
+
+  async deleteAllByUser(userId: number): Promise<void> {
+    await this.connection
+      .updateTable("url")
+      .set({
+        deletedAt: new Date().toISOString(),
+      })
+      .where("url.userId", "=", userId)
       .executeTakeFirstOrThrow()
   }
 }

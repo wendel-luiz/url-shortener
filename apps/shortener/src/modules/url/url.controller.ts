@@ -13,14 +13,13 @@ export class UrlController {
     this.router = express.Router()
 
     this.router.post("/", bodyParser(createBodySchema), this.handler.create)
+    this.router.get("/all", authMiddleware, this.handler.findMany)
 
     this.router.get(
-      "/",
+      "/:code",
       paramParser(transformParamsSchema),
       this.handler.transform
     )
-
-    this.router.get("/all", authMiddleware, this.handler.findMany)
 
     this.router.patch(
       "/:code",
