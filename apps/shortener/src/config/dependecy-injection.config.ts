@@ -26,6 +26,7 @@ export async function buildServer(): Promise<Server> {
 
   // Producer
   const bus = new EventBus(amqpConnection)
+  await bus.configure()
 
   // Service
   const userService = new UserService(userRepository)
@@ -33,7 +34,10 @@ export async function buildServer(): Promise<Server> {
 
   // Listener
   const urlListener = new UrlListener(bus, urlService)
+  await urlListener.subscribe()
+
   const userListener = new UserListener(bus, userService)
+  await userListener.subscribe()
 
   // Handler
   const urlHandler = new UrlHandler(urlService)

@@ -21,6 +21,7 @@ export async function buildServer(): Promise<Server> {
 
   // Producer
   const bus = new EventBus(amqpConnection)
+  await bus.configure()
 
   // Service
   const userService = new UserService(userRepository, bus)

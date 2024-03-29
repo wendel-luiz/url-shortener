@@ -5,13 +5,19 @@ export class UrlListener {
   constructor(
     private readonly eventBus: EventBus,
     private readonly service: UrlService
-  ) {
-    this.eventBus.subscribe("userDeleted", ({ userId }, next) => {
-      this.service
-        .deleteAllByUser(userId)
-        .then(() => next())
-        .catch((err) => next(err))
-    })
+  ) {}
+
+  public async subscribe(): Promise<void> {
+    await this.eventBus.subscribe(
+      "shortener-userDeleted-url",
+      "userDeleted",
+      ({ userId }, next) => {
+        this.service
+          .deleteAllByUser(userId)
+          .then(() => next())
+          .catch((err) => next(err))
+      }
+    )
   }
 
   public async close(): Promise<void> {

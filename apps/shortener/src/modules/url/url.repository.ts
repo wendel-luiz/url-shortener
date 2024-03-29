@@ -29,7 +29,7 @@ export class UrlRepository {
       .where("url.deletedAt", "is", null)
 
     const [data, count] = await Promise.all([
-      query.offset(skip).limit(take).execute(),
+      query.offset(skip).limit(take).orderBy("createdAt").execute(),
       query
         .clearSelect()
         .select((eb) => eb.fn.count<number>("url.id").as("total"))
