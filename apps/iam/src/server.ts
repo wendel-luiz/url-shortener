@@ -1,9 +1,9 @@
-import express from 'express'
-import http from 'http'
-import cors from 'cors'
-import { UserController } from './modules/user/user.controller'
-import { env } from 'process'
-import { errorHandler } from '@repo/shared'
+import express from "express"
+import http from "http"
+import cors from "cors"
+import { UserController } from "./modules/user/user.controller"
+import { env } from "process"
+import { errorHandler, setUserMiddleware } from "@repo/shared"
 
 export class Server {
   private readonly app
@@ -15,6 +15,7 @@ export class Server {
     this.app.use(cors())
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
+    this.app.use(setUserMiddleware)
 
     this.app.use(this.userController.getRouter())
 

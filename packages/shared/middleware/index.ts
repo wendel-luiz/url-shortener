@@ -1,5 +1,5 @@
 export * from "./auth.middleware"
-export * from "./set-user.middleware"
+export * from "./get-user.middleware"
 export * from "./body-parser"
 export * from "./error-handler"
 export * from "./param-parser"

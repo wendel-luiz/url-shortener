@@ -1,14 +1,13 @@
-import { Kysely } from 'kysely'
-import amqp from 'amqplib'
-import { Database } from '../database/types'
-import { dialect } from '../database/dialect'
-import { Server } from '../server'
-import { UserRepository } from '../modules/user/user.repository'
-import { UserService } from '../modules/user/user.service'
-import { UserHandler } from '../modules/user/user.handler'
-import { UserController } from '../modules/user/user.controller'
-import { EventBus } from '@repo/shared'
-import { env } from './env.config'
+import { Kysely } from "kysely"
+import amqp from "amqplib"
+import { Database } from "../database/types"
+import { dialect } from "../database/dialect"
+import { Server } from "../server"
+import { UserRepository } from "../modules/user/user.repository"
+import { UserService } from "../modules/user/user.service"
+import { UserHandler } from "../modules/user/user.handler"
+import { UserController } from "../modules/user/user.controller"
+import { env, EventBus } from "@repo/shared"
 
 export async function buildServer(): Promise<Server> {
   // Base

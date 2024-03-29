@@ -1,5 +1,5 @@
-import { InvalidEnvFileException } from '@repo/shared'
-import { z } from 'zod'
+import { InvalidEnvFileException } from "@repo/shared"
+import { z } from "zod"
 
 const envSchema = z.object({
   NODE_ENV: z.string(),
@@ -12,6 +12,7 @@ const envSchema = z.object({
   TOKEN_SECRET: z.string(),
   SERVER_NAME: z.string(),
   AMQP_URL: z.string().url(),
+  SERVER_URL: z.string().url(),
 })
 type Env = z.infer<typeof envSchema>
 
@@ -30,6 +31,7 @@ class Environment {
       TOKEN_SECRET: process.env.TOKEN_SECRET,
       SERVER_NAME: process.env.SERVER_NAME,
       AMQP_URL: process.env.AMQP_URL,
+      SERVER_URL: process.env.SERVER_URL,
     })
 
     if (!values.success) {
@@ -77,6 +79,10 @@ class Environment {
 
   public get AMQP_URL(): string {
     return this.props.AMQP_URL
+  }
+
+  public get SERVER_URL(): string {
+    return this.props.SERVER_URL
   }
 }
 
