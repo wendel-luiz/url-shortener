@@ -1,15 +1,16 @@
 version: "3"
 
 services:
-  apigateway:
-    image: devopsfaith/krakend:2.6
-    volumes:
-      - ./krakend.json:/etc/krakend/krakend.json
+  reverseproxy:
+    image: reverseproxy
+    build:
+      context: ./.proxy
+      dockerfile: Dockerfile
     ports:
-      - "1234:1234"
-      - "8080:8080"
-      - "8090:8090"
-    command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
+      - "80:80"
+    depends_on:
+      - iam
+      - shortener
 
   database:
     image: "postgres:latest"
@@ -58,7 +59,7 @@ services:
       - DB_PASSWORD=postgres
       - DB_DATABASE=iam
       - AMQP_URL=amqp://rabbitmq
-      - SERVER_URL=http://localhost:8080/
+      - SERVER_URL=http://localhost:80/
     depends_on:
       database:
         condition: service_healthy
@@ -82,7 +83,7 @@ services:
       - DB_PASSWORD=postgres
       - DB_DATABASE=shortener
       - AMQP_URL=amqp://rabbitmq
-      - SERVER_URL=http://localhost:8080/
+      - SERVER_URL=http://localhost:80/
     depends_on:
       database:
         condition: service_healthy
