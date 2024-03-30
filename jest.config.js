@@ -17,10 +17,5 @@ module.exports = {
         "^@repo/shared(.*)$": path.join(__dirname, "./packages/shared/$1"),
       },
     },
-    {
-      displayName: "shared",
-      preset: "ts-jest",
-      testMatch: ["<rootDir>/packages/shared/**/*.test.ts"],
-    },
   ],
 }

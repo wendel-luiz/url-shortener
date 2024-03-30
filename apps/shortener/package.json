@@ -5,15 +5,14 @@
   "license": "MIT",
   "scripts": {
     "dev": "npx env-cmd tsx watch src/index.ts",
-    "migrate": "tsup src/database && npx env-cmd node dist/migrate.js",
+    "migrate:dev": "tsup src/database && npx env-cmd node dist/migrate.js",
+    "migrate": "tsup src/database && node dist/migrate.js",
     "build": "tsup src/index.ts",
     "test": "jest",
-    "start": "env-cmd node dist/index.js",
+    "start": "node dist/index.js",
     "lint": "eslint . --max-warnings 0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
     "@types/amqplib": "^0.10.5",
     "@types/cors": "^2.8.17",
     "@types/eslint": "^8.56.5",

@@ -6,13 +6,12 @@
   "scripts": {
     "dev": "npx env-cmd tsx watch src/index.ts",
     "build": "tsup src/index.ts",
-    "migrate": "tsup src/database && npx env-cmd node dist/migrate.js",
-    "start": "env-cmd node dist/index.js",
+    "migrate:dev": "tsup src/database && npx env-cmd node dist/migrate.js",
+    "migrate": "tsup src/database && node dist/migrate.js",
+    "start": "node dist/index.js",
     "lint": "eslint . --max-warnings 0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/date-fns": "^2.6.0",
@@ -29,6 +28,7 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
+    "amqplib": "^0.10.3",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "date-fns": "^3.6.0",

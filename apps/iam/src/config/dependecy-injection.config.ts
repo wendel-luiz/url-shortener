@@ -1,5 +1,5 @@
 import { Kysely } from "kysely"
-import amqp from "amqplib"
+import amqp, { Connection } from "amqplib"
 import { Database } from "../database/types"
 import { dialect } from "../database/dialect"
 import { Server } from "../server"
@@ -17,11 +17,11 @@ export async function buildServer(): Promise<Server> {
   // Repository
   const userRepository = new UserRepository(db)
 
-  //Amqp Connection
+  // Amqp Connection
   const amqpConnection = await amqp.connect(env.AMQP_URL)
 
   // Producer
-  const bus = new EventBus(amqpConnection)
+  const bus = new EventBus(amqpConnection!)
   await bus.configure()
 
   // Service

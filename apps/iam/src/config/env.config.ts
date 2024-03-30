@@ -11,8 +11,8 @@ const envSchema = z.object({
   DB_DATABASE: z.string(),
   TOKEN_SECRET: z.string(),
   SERVER_NAME: z.string(),
-  AMQP_URL: z.string().url(),
-  SERVER_URL: z.string().url(),
+  AMQP_URL: z.string(),
+  SERVER_URL: z.string(),
 })
 type Env = z.infer<typeof envSchema>
 

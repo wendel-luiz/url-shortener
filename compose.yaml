@@ -1,0 +1,85 @@
+version: "3"
+
+services:
+  database:
+    image: "postgres:latest"
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: iam,shortener
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./db-entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: "rabbitmq"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  iam:
+    image: iam
+    command: bash -c "npm run migrate && npm run start"
+    ports:
+      - 3000:3000
+    build:
+      context: ./apps/iam
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=prod
+      - SERVER_PORT=3000
+      - SERVER_NAME=simple-rbac-node
+      - TOKEN_SECRET=secret
+      - DB_PORT=5432
+      - DB_HOST=database
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=iam
+      - AMQP_URL=amqp://rabbitmq
+      - SERVER_URL=http://localhost:3001/
+    depends_on:
+      database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  shortener:
+    image: shortener
+    command: bash -c "npm run migrate && npm run start"
+    ports:
+      - 3001:3000
+    build:
+      context: ./apps/shortener
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=prod
+      - SERVER_PORT=3000
+      - SERVER_NAME=simple-rbac-node
+      - TOKEN_SECRET=secret
+      - DB_PORT=5432
+      - DB_HOST=database
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=shortener
+      - AMQP_URL=amqp://rabbitmq
+      - SERVER_URL=http://localhost:3001/
+    depends_on:
+      database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy

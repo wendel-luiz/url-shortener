@@ -1,4 +1,4 @@
-import amqp from "amqplib"
+import amqp, { Connection } from "amqplib"
 import { Kysely } from "kysely"
 import { Database } from "../database/types"
 import { Server } from "../server"
@@ -22,7 +22,8 @@ export async function buildServer(): Promise<Server> {
   const userRepository = new UserRepository(db)
   const urlRepository = new UrlRepository(db)
 
-  //Amqp Connection
+  // Amqp Connection
+  // Ugly solution for when the app runs inside docker via compose
   const amqpConnection = await amqp.connect(env.AMQP_URL)
 
   // Producer
