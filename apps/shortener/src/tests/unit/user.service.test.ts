@@ -1,6 +1,6 @@
-import { NotFoundException } from "@repo/shared"
 import { UserService } from "../../modules/user/user.service"
 import { UserRepository } from "../../modules/user/user.repository"
+import { NotFoundException } from "../../lib/exceptions.lib"
 
 jest.mock("../../modules/user/user.repository")
 

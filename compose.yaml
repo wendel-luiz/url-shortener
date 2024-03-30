@@ -4,7 +4,7 @@ services:
   reverseproxy:
     image: reverseproxy
     build:
-      context: ./.proxy
+      context: ./config/proxy
       dockerfile: Dockerfile
     ports:
       - "80:80"
@@ -12,21 +12,31 @@ services:
       - iam
       - shortener
 
-  database:
-    image: "postgres:latest"
+  iam-db:
+    image: postgres:latest
     ports:
-      - 5432:5432
+      - 15432:5432
     environment:
-      POSTGRES_MULTIPLE_DATABASES: iam,shortener
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    volumes:
-      - ./db-entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 30s
-      retries: 3
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  shortener-db:
+    image: postgres:latest
+    ports:
+      - 25432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -39,8 +49,9 @@ services:
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 30s
-      timeout: 30s
-      retries: 3
+      timeout: 10s
+      retries: 5
+      start_period: 10s
 
   iam:
     image: iam
@@ -54,14 +65,14 @@ services:
       - SERVER_NAME=iam-node
       - TOKEN_SECRET=secret
       - DB_PORT=5432
-      - DB_HOST=database
+      - DB_HOST=iam-db
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - DB_DATABASE=iam
+      - DB_DATABASE=postgres
       - AMQP_URL=amqp://rabbitmq
       - SERVER_URL=http://localhost:80/
     depends_on:
-      database:
+      iam-db:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
@@ -78,14 +89,14 @@ services:
       - SERVER_NAME=shortener-node
       - TOKEN_SECRET=secret
       - DB_PORT=5432
-      - DB_HOST=database
+      - DB_HOST=shortener-db
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - DB_DATABASE=shortener
+      - DB_DATABASE=postgres
       - AMQP_URL=amqp://rabbitmq
       - SERVER_URL=http://localhost:80/
     depends_on:
-      database:
+      shortener-db:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy

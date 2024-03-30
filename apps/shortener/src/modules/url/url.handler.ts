@@ -57,7 +57,7 @@ export class UrlHandler {
   ) => {
     this.service
       .delete(req.userId!, req.params.code)
-      .then(() => res.status(204))
+      .then(() => res.status(204).send())
       .catch((err) => next(err))
   }
 }
