@@ -1,14 +1,9 @@
-import { type NextFunction, type Request, type Response } from 'express'
+import { Request, Response } from 'express'
 import { z } from 'zod'
 import { fromZodError } from 'zod-validation-error'
 import { Exception } from '../lib/exceptions.lib'
 
-export function errorHandler(
-  err: unknown,
-  _: Request,
-  res: Response,
-  next: NextFunction,
-): unknown {
+export function errorHandler(err: unknown, _: Request, res: Response): unknown {
   if (err instanceof Exception) {
     return res.status(err.code).json({
       message: err.message,

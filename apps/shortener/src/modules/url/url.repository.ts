@@ -1,22 +1,22 @@
-import { Kysely } from "kysely"
-import { Database, NewUrl, Url, UrlUpdate } from "../../database/types"
-import { FindManyResponse } from "./dtos/find-many.dto"
-import { Paginated } from "../../lib/paginated"
-import { env } from "../../config/env.config"
+import { Kysely } from 'kysely'
+import { Database, NewUrl, Url, UrlUpdate } from '../../database/types'
+import { FindManyResponse } from './dtos/find-many.dto'
+import { Paginated } from '../../lib/paginated'
+import { env } from '../../config/env.config'
 
 export class UrlRepository {
   constructor(private readonly connection: Kysely<Database>) {}
 
   async insert(newUrl: NewUrl): Promise<Url> {
     return await this.connection
-      .insertInto("url")
+      .insertInto('url')
       .values(newUrl)
       .returningAll()
       .executeTakeFirstOrThrow()
   }
 
   async findMany(
-    params: Paginated<{ userId: number }>
+    params: Paginated<{ userId: number }>,
   ): Promise<FindManyResponse> {
     const take = Number(params.take ?? 10)
     const page = Number(params.page ?? 1)
@@ -24,16 +24,16 @@ export class UrlRepository {
     const skip = take * (page - 1)
 
     const query = this.connection
-      .selectFrom("url")
+      .selectFrom('url')
       .selectAll()
-      .where("url.userId", "=", params.params.userId)
-      .where("url.deletedAt", "is", null)
+      .where('url.userId', '=', params.params.userId)
+      .where('url.deletedAt', 'is', null)
 
     const [data, count] = await Promise.all([
-      query.offset(skip).limit(take).orderBy("createdAt").execute(),
+      query.offset(skip).limit(take).orderBy('createdAt').execute(),
       query
         .clearSelect()
-        .select((eb) => eb.fn.count<number>("url.id").as("total"))
+        .select((eb) => eb.fn.count<number>('url.id').as('total'))
         .executeTakeFirst(),
     ])
 
@@ -54,39 +54,39 @@ export class UrlRepository {
 
   async findByCode(code: string): Promise<Url | undefined> {
     return await this.connection
-      .selectFrom("url")
+      .selectFrom('url')
       .selectAll()
-      .where("url.code", "=", code)
-      .where("url.deletedAt", "is", null)
+      .where('url.code', '=', code)
+      .where('url.deletedAt', 'is', null)
       .executeTakeFirst()
   }
 
   async update(id: number, url: UrlUpdate): Promise<Url> {
     return await this.connection
-      .updateTable("url")
+      .updateTable('url')
       .set({ ...url, updatedAt: new Date().toISOString() })
       .returningAll()
-      .where("id", "=", id)
+      .where('id', '=', id)
       .executeTakeFirstOrThrow()
   }
 
   async delete(id: number): Promise<void> {
     await this.connection
-      .updateTable("url")
+      .updateTable('url')
       .set({
         deletedAt: new Date().toISOString(),
       })
-      .where("id", "=", id)
+      .where('id', '=', id)
       .executeTakeFirstOrThrow()
   }
 
   async deleteAllByUser(userId: number): Promise<void> {
     await this.connection
-      .updateTable("url")
+      .updateTable('url')
       .set({
         deletedAt: new Date().toISOString(),
       })
-      .where("url.userId", "=", userId)
+      .where('url.userId', '=', userId)
       .executeTakeFirstOrThrow()
   }
 }

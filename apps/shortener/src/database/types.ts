@@ -3,7 +3,7 @@ import {
   type Insertable,
   type Selectable,
   type Updateable,
-} from "kysely"
+} from 'kysely'
 
 export interface Database {
   user: UserTable

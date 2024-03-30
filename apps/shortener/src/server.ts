@@ -1,12 +1,12 @@
-import express from "express"
-import http from "http"
-import cors from "cors"
-import { env } from "process"
-import { UrlController } from "./modules/url/url.controller"
-import { UserListener } from "./modules/user/user.listener"
-import { UrlListener } from "./modules/url/url.listener"
-import { setUserMiddleware } from "./middleware/get-user.middleware"
-import { errorHandler } from "./middleware/error-handler"
+import express from 'express'
+import http from 'http'
+import cors from 'cors'
+import { env } from 'process'
+import { UrlController } from './modules/url/url.controller'
+import { UserListener } from './modules/user/user.listener'
+import { UrlListener } from './modules/url/url.listener'
+import { setUserMiddleware } from './middleware/get-user.middleware'
+import { errorHandler } from './middleware/error-handler'
 
 export class Server {
   private readonly app
@@ -15,7 +15,7 @@ export class Server {
   constructor(
     private readonly urlController: UrlController,
     private readonly userListener: UserListener,
-    private readonly urlListener: UrlListener
+    private readonly urlListener: UrlListener,
   ) {
     this.app = express()
 

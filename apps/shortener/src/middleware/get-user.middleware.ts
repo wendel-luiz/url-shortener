@@ -1,16 +1,16 @@
-import { NextFunction, Request, Response } from "express"
-import { JwtPayload, verify } from "jsonwebtoken"
+import { NextFunction, Request, Response } from 'express'
+import { JwtPayload, verify } from 'jsonwebtoken'
 import {
   InternalServerError,
   UnauthorizedException,
-} from "../lib/exceptions.lib"
+} from '../lib/exceptions.lib'
 
 export function setUserMiddleware(
   req: Request,
   _: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
-  const token = req.headers.authorization?.replace("Bearer ", "")
+  const token = req.headers.authorization?.replace('Bearer ', '')
   if (!token) {
     next()
     return
@@ -23,7 +23,7 @@ export function setUserMiddleware(
 
   verify(token, secret, (err, decoded) => {
     if (err || !decoded) {
-      next(new UnauthorizedException("Unauthorized"))
+      next(new UnauthorizedException('Unauthorized'))
       return
     }
 

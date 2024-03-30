@@ -1,10 +1,10 @@
-import express from "express"
-import http from "http"
-import cors from "cors"
-import { UserController } from "./modules/user/user.controller"
-import { env } from "process"
-import { setUserMiddleware } from "./middleware/get-user.middleware"
-import { errorHandler } from "./middleware/error-handler"
+import express from 'express'
+import http from 'http'
+import cors from 'cors'
+import { UserController } from './modules/user/user.controller'
+import { env } from 'process'
+import { setUserMiddleware } from './middleware/get-user.middleware'
+import { errorHandler } from './middleware/error-handler'
 
 export class Server {
   private readonly app

@@ -5,7 +5,7 @@
     "build": "yarn workspace iam build && yarn workspace shortener build",
     "dev": "yarn workspace iam dev && yarn workspace shortener dev",
     "migrate:dev": "yarn workspace iam migrate:dev && yarn workspace shortener migrate:dev",
-    "lint": "eslint",
+    "lint": "eslint --fix --ext .ts .",
     "test": "npx env-cmd jest",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky",
@@ -35,7 +35,7 @@
   ],
   "lint-staged": {
     "apps/**/*.{js,ts}": [
-      "eslint --fix"
+      "eslint --fix ."
     ],
     "*.json": [
       "prettier --write"

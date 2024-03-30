@@ -1,8 +1,8 @@
-import { RequestHandler } from "express"
-import { UserService } from "./user.service"
-import { SigninBody } from "./dtos/signin.dto"
-import { LoginBody } from "./dtos/login.dto"
-import { ChangePasswordBody } from "./dtos/change-password.dto"
+import { RequestHandler } from 'express'
+import { UserService } from './user.service'
+import { SigninBody } from './dtos/signin.dto'
+import { LoginBody } from './dtos/login.dto'
+import { ChangePasswordBody } from './dtos/change-password.dto'
 
 export class UserHandler {
   constructor(private readonly service: UserService) {}
@@ -10,7 +10,7 @@ export class UserHandler {
   public signin: RequestHandler<unknown, unknown, SigninBody, unknown> = (
     req,
     res,
-    next
+    next,
   ) => {
     this.service
       .signin(req.body)
@@ -21,7 +21,7 @@ export class UserHandler {
   public login: RequestHandler<unknown, unknown, LoginBody, unknown> = (
     req,
     res,
-    next
+    next,
   ) => {
     this.service
       .login(req.body)
@@ -44,7 +44,7 @@ export class UserHandler {
   public delete: RequestHandler<unknown, unknown, unknown, unknown> = (
     req,
     res,
-    next
+    next,
   ) => {
     this.service
       .delete(req.userId!)

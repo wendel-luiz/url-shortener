@@ -2,7 +2,7 @@ import {
   PaginatedQuery,
   paginatedQuerySchema,
   PaginatedResponse,
-} from "../../../lib/paginated"
+} from '../../../lib/paginated'
 
 export const findManyQuerySchema = paginatedQuerySchema
 export type FindManyQuery = PaginatedQuery

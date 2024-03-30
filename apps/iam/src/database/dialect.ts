@@ -1,6 +1,6 @@
-import { Pool } from "pg"
-import { PostgresDialect } from "kysely"
-import { env } from "../config/env.config"
+import { Pool } from 'pg'
+import { PostgresDialect } from 'kysely'
+import { env } from '../config/env.config'
 
 export const dialect = new PostgresDialect({
   pool: new Pool({

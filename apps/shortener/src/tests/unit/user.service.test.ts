@@ -1,8 +1,8 @@
-import { UserService } from "../../modules/user/user.service"
-import { UserRepository } from "../../modules/user/user.repository"
-import { NotFoundException } from "../../lib/exceptions.lib"
+import { UserService } from '../../modules/user/user.service'
+import { UserRepository } from '../../modules/user/user.repository'
+import { NotFoundException } from '../../lib/exceptions.lib'
 
-jest.mock("../../modules/user/user.repository")
+jest.mock('../../modules/user/user.repository')
 
 const UserRepositoryMocked = UserRepository as jest.Mock<UserRepository>
 
@@ -14,45 +14,45 @@ function sutFactory() {
   return { sut, userRepository }
 }
 
-describe("userService", () => {
-  describe("Given that I want to create a new user", () => {
-    describe("When I provide a userId", () => {
-      test("Then should the user be created", async () => {
+describe('userService', () => {
+  describe('Given that I want to create a new user', () => {
+    describe('When I provide a userId', () => {
+      test('Then should the user be created', async () => {
         const { sut, userRepository } = sutFactory()
-        await sut.create("id1234")
+        await sut.create('id1234')
         expect(userRepository.insert).toHaveBeenCalled()
       })
     })
   })
 
-  describe("Given that I want to find a user by its public id", () => {
-    describe("When I pass the id", () => {
-      test("Then should the user be found", async () => {
+  describe('Given that I want to find a user by its public id', () => {
+    describe('When I pass the id', () => {
+      test('Then should the user be found', async () => {
         const { sut, userRepository } = sutFactory()
 
         userRepository.findById.mockResolvedValueOnce({
           id: 1,
-          code: "123",
+          code: '123',
           deletedAt: undefined,
         })
 
-        const user = await sut.findById("id12345")
+        const user = await sut.findById('id12345')
 
         expect(userRepository.findById).toHaveBeenCalled()
-        expect(user.code).toBe("123")
+        expect(user.code).toBe('123')
       })
     })
 
-    describe("When I pass a inexisting id", () => {
-      test("Then a not found exception should be thrown", async () => {
+    describe('When I pass a inexisting id', () => {
+      test('Then a not found exception should be thrown', async () => {
         const { sut, userRepository } = sutFactory()
 
         userRepository.findById.mockResolvedValueOnce(undefined)
 
-        let response, error
+        let error
 
         try {
-          response = await sut.findById("id12345")
+          await sut.findById('id12345')
         } catch (err) {
           error = err
         }

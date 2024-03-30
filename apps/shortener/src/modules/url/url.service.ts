@@ -1,23 +1,23 @@
-import { createHash } from "crypto"
-import { UrlRepository } from "./url.repository"
-import { UserService } from "../user/user.service"
-import { FindManyResponse } from "./dtos/find-many.dto"
-import { env } from "../../config/env.config"
+import { createHash } from 'crypto'
+import { UrlRepository } from './url.repository'
+import { UserService } from '../user/user.service'
+import { FindManyResponse } from './dtos/find-many.dto'
+import { env } from '../../config/env.config'
 import {
   NotFoundException,
   UnauthorizedException,
-} from "../../lib/exceptions.lib"
+} from '../../lib/exceptions.lib'
 
 export class UrlService {
   constructor(
     private readonly urlRepository: UrlRepository,
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ) {}
 
   async create(url: string, userId?: string): Promise<{ url: string }> {
     const data = url + Math.random().toString()
-    const sha256Hash = createHash("sha256").update(data).digest("hex")
-    const base64Encoded = Buffer.from(sha256Hash).toString("base64")
+    const sha256Hash = createHash('sha256').update(data).digest('hex')
+    const base64Encoded = Buffer.from(sha256Hash).toString('base64')
     const code = base64Encoded.substring(0, 6)
 
     let user
@@ -39,7 +39,7 @@ export class UrlService {
   async findMany(
     userId: string,
     page?: number,
-    take?: number
+    take?: number,
   ): Promise<FindManyResponse> {
     const user = await this.userService.findById(userId)
     const urls = await this.urlRepository.findMany({
@@ -56,7 +56,7 @@ export class UrlService {
   public async transform(code: string): Promise<string> {
     const url = await this.urlRepository.findByCode(code)
     if (!url) {
-      throw new NotFoundException("Url not found.")
+      throw new NotFoundException('Url not found.')
     }
 
     await this.urlRepository.update(url.id, {
@@ -69,16 +69,16 @@ export class UrlService {
   public async update(
     userId: string,
     code: string,
-    newUrl: string
+    newUrl: string,
   ): Promise<{ url: string }> {
     const user = await this.userService.findById(userId)
     const url = await this.urlRepository.findByCode(code)
     if (!url) {
-      throw new NotFoundException("Url not found.")
+      throw new NotFoundException('Url not found.')
     }
 
     if (user.id !== url.userId) {
-      throw new UnauthorizedException("Unauthorized.")
+      throw new UnauthorizedException('Unauthorized.')
     }
 
     const updatedUrl = await this.urlRepository.update(url.id, {
@@ -94,11 +94,11 @@ export class UrlService {
     const user = await this.userService.findById(userId)
     const url = await this.urlRepository.findByCode(code)
     if (!url) {
-      throw new NotFoundException("Url not found.")
+      throw new NotFoundException('Url not found.')
     }
 
     if (user.id !== url.userId) {
-      throw new UnauthorizedException("Unauthorized.")
+      throw new UnauthorizedException('Unauthorized.')
     }
 
     await this.urlRepository.delete(url.id)

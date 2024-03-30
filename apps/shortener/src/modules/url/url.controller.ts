@@ -1,12 +1,12 @@
-import express, { Router } from "express"
-import { UrlHandler } from "./url.handler"
-import { createBodySchema } from "./dtos/create.dto"
-import { transformParamsSchema } from "./dtos/transform.dto"
-import { updateBodySchema, updateParamsSchema } from "./dtos/update.dto"
-import { deleteParamsSchema } from "./dtos/delete.dto"
-import { bodyParser } from "../../middleware/body-parser"
-import { authMiddleware } from "../../middleware/auth.middleware"
-import { paramParser } from "../../middleware/param-parser"
+import express, { Router } from 'express'
+import { UrlHandler } from './url.handler'
+import { createBodySchema } from './dtos/create.dto'
+import { transformParamsSchema } from './dtos/transform.dto'
+import { updateBodySchema, updateParamsSchema } from './dtos/update.dto'
+import { deleteParamsSchema } from './dtos/delete.dto'
+import { bodyParser } from '../../middleware/body-parser'
+import { authMiddleware } from '../../middleware/auth.middleware'
+import { paramParser } from '../../middleware/param-parser'
 
 export class UrlController {
   private readonly router: Router
@@ -14,28 +14,28 @@ export class UrlController {
   constructor(private readonly handler: UrlHandler) {
     this.router = express.Router()
 
-    this.router.post("/", bodyParser(createBodySchema), this.handler.create)
-    this.router.get("/all", authMiddleware, this.handler.findMany)
+    this.router.post('/', bodyParser(createBodySchema), this.handler.create)
+    this.router.get('/all', authMiddleware, this.handler.findMany)
 
     this.router.get(
-      "/:code",
+      '/:code',
       paramParser(transformParamsSchema),
-      this.handler.transform
+      this.handler.transform,
     )
 
     this.router.patch(
-      "/:code",
+      '/:code',
       authMiddleware,
       paramParser(updateParamsSchema),
       bodyParser(updateBodySchema),
-      this.handler.update
+      this.handler.update,
     )
 
     this.router.delete(
-      "/:code",
+      '/:code',
       authMiddleware,
       paramParser(deleteParamsSchema),
-      this.handler.delete
+      this.handler.delete,
     )
   }
 

@@ -1,18 +1,18 @@
-import amqp, { Connection } from "amqplib"
-import { Kysely } from "kysely"
-import { Database } from "../database/types"
-import { Server } from "../server"
-import { dialect } from "../database/dialect"
-import { UserRepository } from "../modules/user/user.repository"
-import { UrlRepository } from "../modules/url/url.repository"
-import { UserService } from "../modules/user/user.service"
-import { UrlService } from "../modules/url/url.service"
-import { UserListener } from "../modules/user/user.listener"
-import { UrlHandler } from "../modules/url/url.handler"
-import { UrlController } from "../modules/url/url.controller"
-import { UrlListener } from "../modules/url/url.listener"
-import { EventBus } from "../events/bus.lib"
-import { env } from "./env.config"
+import amqp from 'amqplib'
+import { Kysely } from 'kysely'
+import { Database } from '../database/types'
+import { Server } from '../server'
+import { dialect } from '../database/dialect'
+import { UserRepository } from '../modules/user/user.repository'
+import { UrlRepository } from '../modules/url/url.repository'
+import { UserService } from '../modules/user/user.service'
+import { UrlService } from '../modules/url/url.service'
+import { UserListener } from '../modules/user/user.listener'
+import { UrlHandler } from '../modules/url/url.handler'
+import { UrlController } from '../modules/url/url.controller'
+import { UrlListener } from '../modules/url/url.listener'
+import { EventBus } from '../events/bus.lib'
+import { env } from './env.config'
 
 export async function buildServer(): Promise<Server> {
   // Base

@@ -1,10 +1,10 @@
-import { RequestHandler } from "express"
-import { UrlService } from "./url.service"
-import { CreateBody } from "./dtos/create.dto"
-import { TransformParams } from "./dtos/transform.dto"
-import { UpdateBody, UpdateParams } from "./dtos/update.dto"
-import { DeleteParams } from "./dtos/delete.dto"
-import { FindManyQuery } from "./dtos/find-many.dto"
+import { RequestHandler } from 'express'
+import { UrlService } from './url.service'
+import { CreateBody } from './dtos/create.dto'
+import { TransformParams } from './dtos/transform.dto'
+import { UpdateBody, UpdateParams } from './dtos/update.dto'
+import { DeleteParams } from './dtos/delete.dto'
+import { FindManyQuery } from './dtos/find-many.dto'
 
 export class UrlHandler {
   constructor(private readonly service: UrlService) {}
@@ -12,7 +12,7 @@ export class UrlHandler {
   public create: RequestHandler<unknown, unknown, CreateBody, unknown> = (
     req,
     res,
-    next
+    next,
   ) => {
     this.service
       .create(req.body.url, req.userId)
@@ -23,7 +23,7 @@ export class UrlHandler {
   public findMany: RequestHandler<unknown, unknown, unknown, FindManyQuery> = (
     req,
     res,
-    next
+    next,
   ) => {
     this.service
       .findMany(req.userId!, req.query.page, req.query.take)
@@ -42,7 +42,7 @@ export class UrlHandler {
   public update: RequestHandler<UpdateParams, unknown, UpdateBody, unknown> = (
     req,
     res,
-    next
+    next,
   ) => {
     this.service
       .update(req.userId!, req.params.code, req.body.url)
@@ -53,7 +53,7 @@ export class UrlHandler {
   public delete: RequestHandler<DeleteParams, unknown, unknown, unknown> = (
     req,
     res,
-    next
+    next,
   ) => {
     this.service
       .delete(req.userId!, req.params.code)
