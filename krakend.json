@@ -4,89 +4,152 @@
   "endpoints": [
     {
       "endpoint": "/",
+      "output_encoding": "no-op",
       "method": "POST",
       "backend": [
         {
           "host": ["shortener"],
           "url_pattern": "/",
-          "method": "POST"
+          "encoding": "no-op",
+          "method": "POST",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true,
+              "return_error_details": "backend_alias"
+            }
+          }
         }
       ]
     },
     {
-      "endpoint": "/",
+      "endpoint": "/{code}",
+      "output_encoding": "no-op",
       "method": "GET",
       "backend": [
         {
           "host": ["shortener"],
-          "url_pattern": "/",
-          "method": "GET"
+          "url_pattern": "/{code}",
+          "encoding": "no-op",
+          "method": "GET",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true,
+              "return_error_details": "backend_alias"
+            }
+          }
         }
       ]
     },
     {
-      "endpoint": "/",
+      "endpoint": "/{code}",
+      "output_encoding": "no-op",
       "method": "PATCH",
       "backend": [
         {
           "host": ["shortener"],
-          "url_pattern": "/",
-          "method": "PATCH"
+          "url_pattern": "/{code}",
+          "encoding": "no-op",
+          "method": "PATCH",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true,
+              "return_error_details": "backend_alias"
+            }
+          }
         }
       ]
     },
     {
-      "endpoint": "/",
+      "endpoint": "/{code}",
+      "output_encoding": "no-op",
       "method": "DELETE",
       "backend": [
         {
           "host": ["shortener"],
-          "url_pattern": "/",
-          "method": "DELETE"
+          "url_pattern": "/{code}",
+          "encoding": "no-op",
+          "method": "DELETE",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true,
+              "return_error_details": "backend_alias"
+            }
+          }
         }
       ]
     },
     {
       "endpoint": "/list",
+      "output_encoding": "no-op",
       "method": "GET",
       "backend": [
         {
           "host": ["shortener"],
           "url_pattern": "/all",
-          "method": "GET"
+          "encoding": "no-op",
+          "method": "GET",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true,
+              "return_error_details": "backend_alias"
+            }
+          }
         }
       ]
     },
     {
       "endpoint": "/signin",
+      "output_encoding": "no-op",
       "method": "POST",
       "backend": [
         {
           "host": ["iam"],
           "url_pattern": "/signin",
-          "method": "POST"
+          "encoding": "no-op",
+          "method": "POST",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
         }
       ]
     },
     {
       "endpoint": "/login",
+      "output_encoding": "no-op",
       "method": "POST",
       "backend": [
         {
           "host": ["iam"],
           "url_pattern": "/login",
-          "method": "POST"
+          "encoding": "no-op",
+          "method": "POST",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true,
+              "return_error_details": "backend_alias"
+            }
+          }
         }
       ]
     },
     {
       "endpoint": "/delete-account",
+      "output_encoding": "no-op",
       "method": "DELETE",
       "backend": [
         {
           "host": ["iam"],
-          "url_pattern": "/url",
-          "method": "DELETE"
+          "url_pattern": "/",
+          "encoding": "no-op",
+          "method": "DELETE",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true,
+              "return_error_details": "backend_alias"
+            }
+          }
         }
       ]
     }

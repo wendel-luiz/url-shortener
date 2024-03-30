@@ -1,6 +1,16 @@
 version: "3"
 
 services:
+  apigateway:
+    image: devopsfaith/krakend:2.6
+    volumes:
+      - ./krakend.json:/etc/krakend/krakend.json
+    ports:
+      - "1234:1234"
+      - "8080:8080"
+      - "8090:8090"
+    command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
+
   database:
     image: "postgres:latest"
     ports:
@@ -21,7 +31,6 @@ services:
     image: rabbitmq:3-management-alpine
     container_name: "rabbitmq"
     ports:
-      - 5672:5672
       - 15672:15672
     volumes:
       - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
@@ -35,15 +44,13 @@ services:
   iam:
     image: iam
     command: bash -c "npm run migrate && npm run start"
-    ports:
-      - 3000:3000
     build:
       context: ./apps/iam
       dockerfile: Dockerfile
     environment:
       - NODE_ENV=prod
-      - SERVER_PORT=3000
-      - SERVER_NAME=simple-rbac-node
+      - SERVER_PORT=80
+      - SERVER_NAME=iam-node
       - TOKEN_SECRET=secret
       - DB_PORT=5432
       - DB_HOST=database
@@ -51,7 +58,7 @@ services:
       - DB_PASSWORD=postgres
       - DB_DATABASE=iam
       - AMQP_URL=amqp://rabbitmq
-      - SERVER_URL=http://localhost:3001/
+      - SERVER_URL=http://localhost:8080/
     depends_on:
       database:
         condition: service_healthy
@@ -61,15 +68,13 @@ services:
   shortener:
     image: shortener
     command: bash -c "npm run migrate && npm run start"
-    ports:
-      - 3001:3000
     build:
       context: ./apps/shortener
       dockerfile: Dockerfile
     environment:
       - NODE_ENV=prod
-      - SERVER_PORT=3000
-      - SERVER_NAME=simple-rbac-node
+      - SERVER_PORT=80
+      - SERVER_NAME=shortener-node
       - TOKEN_SECRET=secret
       - DB_PORT=5432
       - DB_HOST=database
@@ -77,7 +82,7 @@ services:
       - DB_PASSWORD=postgres
       - DB_DATABASE=shortener
       - AMQP_URL=amqp://rabbitmq
-      - SERVER_URL=http://localhost:3001/
+      - SERVER_URL=http://localhost:8080/
     depends_on:
       database:
         condition: service_healthy

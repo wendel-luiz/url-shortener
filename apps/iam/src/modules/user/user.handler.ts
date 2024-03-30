@@ -48,7 +48,7 @@ export class UserHandler {
   ) => {
     this.service
       .delete(req.userId!)
-      .then((result) => res.status(200).json(result))
+      .then(() => res.status(204).json())
       .catch((err) => next(err))
   }
 }
