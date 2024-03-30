@@ -1,6 +1,6 @@
-# Turborepo starter
+# Encurtador de URL
 
-This is an official starter Turborepo.
+Este projeto implementa um encurtador de URL. Com ele, caso o usuário envie uma URL qualquer, uma versão encurtada da mesma será gerada
 
 ## Using this example
 
