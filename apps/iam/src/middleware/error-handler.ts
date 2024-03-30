@@ -1,9 +1,15 @@
-import { Request, Response } from 'express'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { NextFunction, Request, Response } from 'express'
 import { z } from 'zod'
 import { fromZodError } from 'zod-validation-error'
 import { Exception } from '../lib/exceptions.lib'
 
-export function errorHandler(err: unknown, _: Request, res: Response): unknown {
+export function errorHandler(
+  err: unknown,
+  _: Request,
+  res: Response,
+  next: NextFunction,
+): unknown {
   if (err instanceof Exception) {
     return res.status(err.code).json({
       message: err.message,

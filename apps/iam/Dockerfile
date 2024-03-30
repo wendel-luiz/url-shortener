@@ -4,20 +4,21 @@ FROM node:20-slim
 # Set the working directory to /app
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# Copy package.json and yarn-lock.json to the working directory
+COPY package.json ./
 
 # Install dependencies
-RUN npm install
+RUN yarn
 
 # Copy the rest of the application code to the working directory
-COPY . .
+COPY src ./src
+COPY tsconfig.json ./tsconfig.json
 
 # Build the application
-RUN npm run build
+RUN yarn build
 
 # Expose port 80
 EXPOSE 80
 
 # Start the application
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]

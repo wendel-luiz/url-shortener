@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "dev": "npx env-cmd -f ../../.env tsx watch src/index.ts",
     "build": "tsup src/index.ts",

@@ -12,14 +12,6 @@ export class UserController {
   constructor(private readonly handler: UserHandler) {
     this.router = express.Router()
 
-    this.router.post(
-      '/signin',
-      bodyParser(signinBodySchema),
-      this.handler.signin,
-    )
-
-    this.router.post('/login', bodyParser(loginBodySchema), this.handler.login)
-
     this.router.patch(
       '/',
       authMiddleware,
@@ -28,6 +20,14 @@ export class UserController {
     )
 
     this.router.delete('/', authMiddleware, this.handler.delete)
+
+    this.router.post(
+      '/signin',
+      bodyParser(signinBodySchema),
+      this.handler.signin,
+    )
+
+    this.router.post('/login', bodyParser(loginBodySchema), this.handler.login)
   }
 
   public getRouter(): Router {
