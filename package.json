@@ -2,9 +2,10 @@
   "name": "teddy-backend-test",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
+    "build": "yarn workspace iam build && yarn workspace shortener build",
+    "dev": "yarn workspace iam dev && yarn workspace shortener dev",
+    "migrate:dev": "yarn workspace iam migrate:dev && yarn workspace shortener migrate:dev",
+    "lint": "eslint",
     "test": "npx env-cmd jest",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky",
@@ -13,30 +14,27 @@
   "devDependencies": {
     "@commitlint/cli": "^19.2.1",
     "@commitlint/config-conventional": "^19.1.0",
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.30",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
     "husky": "^9.0.11",
     "jest": "^29.7.0",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
-    "ts-jest": "^29.1.2",
-    "turbo": "latest"
+    "ts-jest": "^29.1.2"
   },
   "engines": {
     "node": ">=20.0.0"
   },
   "packageManager": "yarn@1.22.22",
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/*"
   ],
   "lint-staged": {
     "apps/**/*.{js,ts}": [
-      "eslint --fix"
-    ],
-    "packages/shared/**/*.{js,ts}": [
       "eslint --fix"
     ],
     "*.json": [
