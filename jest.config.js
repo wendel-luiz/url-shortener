@@ -13,9 +13,6 @@ module.exports = {
       displayName: 'shortener',
       preset: 'ts-jest',
       testMatch: ['<rootDir>/apps/shortener/**/*.test.ts'],
-      moduleNameMapper: {
-        '^@repo/shared(.*)$': path.join(__dirname, './packages/shared/$1'),
-      },
     },
   ],
 }
