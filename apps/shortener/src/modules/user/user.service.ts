@@ -1,5 +1,5 @@
 import { NotFoundException } from "@repo/shared"
-import { NewUser, User } from "../../database/types"
+import { User } from "../../database/types"
 import { UserRepository } from "./user.repository"
 
 export class UserService {

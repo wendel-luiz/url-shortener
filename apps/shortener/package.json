@@ -7,6 +7,7 @@
     "dev": "npx env-cmd tsx watch src/index.ts",
     "migrate": "tsup src/database && npx env-cmd node dist/migrate.js",
     "build": "tsup src/index.ts",
+    "test": "jest",
     "start": "node dist/index.js",
     "lint": "eslint . --max-warnings 0"
   },
