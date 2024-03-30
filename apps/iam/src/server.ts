@@ -3,7 +3,8 @@ import http from "http"
 import cors from "cors"
 import { UserController } from "./modules/user/user.controller"
 import { env } from "process"
-import { errorHandler, setUserMiddleware } from "@repo/shared"
+import { setUserMiddleware } from "./middleware/get-user.middleware"
+import { errorHandler } from "./middleware/error-handler"
 
 export class Server {
   private readonly app

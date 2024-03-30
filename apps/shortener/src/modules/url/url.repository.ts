@@ -1,7 +1,8 @@
 import { Kysely } from "kysely"
 import { Database, NewUrl, Url, UrlUpdate } from "../../database/types"
-import { env, Paginated } from "@repo/shared"
 import { FindManyResponse } from "./dtos/find-many.dto"
+import { Paginated } from "../../lib/paginated"
+import { env } from "../../config/env.config"
 
 export class UrlRepository {
   constructor(private readonly connection: Kysely<Database>) {}

@@ -1,6 +1,6 @@
 import { type JwtPayload, type Secret, sign } from "jsonwebtoken"
 import { User } from "../../../database/types"
-import { env } from "@repo/shared"
+import { env } from "../../../config/env.config"
 
 export function generateJWT(user: User, expiration: number): string {
   const secret: Secret = env.TOKEN_SECRET

@@ -1,5 +1,5 @@
-import { InvalidEnvFileException } from "@repo/shared"
 import { z } from "zod"
+import { InvalidEnvFileException } from "../lib/exceptions.lib"
 
 const envSchema = z.object({
   NODE_ENV: z.string(),

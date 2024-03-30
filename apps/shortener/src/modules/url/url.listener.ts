@@ -1,4 +1,4 @@
-import { EventBus } from "@repo/shared"
+import { EventBus } from "../../events/bus.lib"
 import { UrlService } from "./url.service"
 
 export class UrlListener {

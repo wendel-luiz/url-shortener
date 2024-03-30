@@ -1,10 +1,12 @@
 import express, { Router } from "express"
 import { UrlHandler } from "./url.handler"
-import { authMiddleware, bodyParser, paramParser } from "@repo/shared"
 import { createBodySchema } from "./dtos/create.dto"
 import { transformParamsSchema } from "./dtos/transform.dto"
 import { updateBodySchema, updateParamsSchema } from "./dtos/update.dto"
 import { deleteParamsSchema } from "./dtos/delete.dto"
+import { bodyParser } from "../../middleware/body-parser"
+import { authMiddleware } from "../../middleware/auth.middleware"
+import { paramParser } from "../../middleware/param-parser"
 
 export class UrlController {
   private readonly router: Router

@@ -1,4 +1,4 @@
-import { EventBus } from "@repo/shared"
+import { EventBus } from "../../events/bus.lib"
 import { UserService } from "./user.service"
 
 export class UserListener {

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://www.krakend.io/schema/v2.6/krakend.json",
+  "version": 3,
+  "endpoints": [
+    {
+      "endpoint": "/",
+      "method": "POST",
+      "backend": [
+        {
+          "host": ["shortener"],
+          "url_pattern": "/",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "endpoint": "/",
+      "method": "GET",
+      "backend": [
+        {
+          "host": ["shortener"],
+          "url_pattern": "/",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "endpoint": "/",
+      "method": "PATCH",
+      "backend": [
+        {
+          "host": ["shortener"],
+          "url_pattern": "/",
+          "method": "PATCH"
+        }
+      ]
+    },
+    {
+      "endpoint": "/",
+      "method": "DELETE",
+      "backend": [
+        {
+          "host": ["shortener"],
+          "url_pattern": "/",
+          "method": "DELETE"
+        }
+      ]
+    },
+    {
+      "endpoint": "/list",
+      "method": "GET",
+      "backend": [
+        {
+          "host": ["shortener"],
+          "url_pattern": "/all",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "endpoint": "/signin",
+      "method": "POST",
+      "backend": [
+        {
+          "host": ["iam"],
+          "url_pattern": "/signin",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "endpoint": "/login",
+      "method": "POST",
+      "backend": [
+        {
+          "host": ["iam"],
+          "url_pattern": "/login",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "endpoint": "/delete-account",
+      "method": "DELETE",
+      "backend": [
+        {
+          "host": ["iam"],
+          "url_pattern": "/url",
+          "method": "DELETE"
+        }
+      ]
+    }
+  ],
+  "extra_config": {}
+}

@@ -7,7 +7,8 @@ import { UserRepository } from "../modules/user/user.repository"
 import { UserService } from "../modules/user/user.service"
 import { UserHandler } from "../modules/user/user.handler"
 import { UserController } from "../modules/user/user.controller"
-import { env, EventBus } from "@repo/shared"
+import { env } from "./env.config"
+import { EventBus } from "../events/bus.lib"
 
 export async function buildServer(): Promise<Server> {
   // Base

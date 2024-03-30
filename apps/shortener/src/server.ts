@@ -3,14 +3,10 @@ import http from "http"
 import cors from "cors"
 import { env } from "process"
 import { UrlController } from "./modules/url/url.controller"
-import {
-  authMiddleware,
-  errorHandler,
-  EventBus,
-  setUserMiddleware,
-} from "@repo/shared"
 import { UserListener } from "./modules/user/user.listener"
 import { UrlListener } from "./modules/url/url.listener"
+import { setUserMiddleware } from "./middleware/get-user.middleware"
+import { errorHandler } from "./middleware/error-handler"
 
 export class Server {
   private readonly app

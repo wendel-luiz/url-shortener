@@ -7,7 +7,7 @@
     "dev": "npx env-cmd tsx watch src/index.ts",
     "build": "tsup src/index.ts",
     "migrate": "tsup src/database && npx env-cmd node dist/migrate.js",
-    "start": "node dist/index.js",
+    "start": "env-cmd node dist/index.js",
     "lint": "eslint . --max-warnings 0"
   },
   "devDependencies": {
@@ -29,7 +29,6 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
-    "@repo/shared": "0.0.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "date-fns": "^3.6.0",

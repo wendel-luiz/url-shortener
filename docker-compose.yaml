@@ -1,6 +1,15 @@
 version: "3"
 
 services:
+  apigateway:
+    image: devopsfaith/krakend:2.6.0
+    volumes:
+      - ./krakend:/etc/krakend
+    ports:
+      - "1234:1234"
+      - "8080:8080"
+      - "8090:8090"
+    command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
   database:
     image: "postgres:latest"
     ports:

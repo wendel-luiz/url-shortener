@@ -6,14 +6,14 @@ import { SigninBody, SigninReturnBody } from "./dtos/signin.dto"
 import { LoginBody, LoginReturnBody } from "./dtos/login.dto"
 import { generateJWT } from "./utils/token.utils"
 import { addDays } from "date-fns"
+import { ChangePasswordReturnBody } from "./dtos/change-password.dto"
+import { EventBus } from "../../events/bus.lib"
 import {
   BadCredentialsException,
   BadRequestException,
   ConflictException,
-  EventBus,
   NotFoundException,
-} from "@repo/shared"
-import { ChangePasswordReturnBody } from "./dtos/change-password.dto"
+} from "../../lib/exceptions.lib"
 
 export class UserService {
   constructor(
